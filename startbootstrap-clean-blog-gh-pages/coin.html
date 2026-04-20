@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <a href="index.html" class"back-btn">Back to Home</a>
+<meta charset="UTF-8">
+<title>Coin Flip Game</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f4f4f4;
+        padding: 50px;
+    }
+
+    h1 {
+        font-size: 2.5em;
+    }
+
+    .buttons button {
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 8px;
+        border: none;
+        background-color: #007BFF;
+        color: white;
+    }
+
+    .buttons button:hover {
+        background-color: #0056b3;
+    }
+
+    .score {
+        margin-top: 20px;
+        font-size: 20px;
+    }
+
+    .result {
+        margin-top: 30px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .winner {
+        font-size: 28px;
+        color: green;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Coin Flip Game</h1>
+<p>Choose Heads or Tails. First to 7 points wins!</p>
+
+<div class="buttons">
+    <button onclick="play('Heads')">Heads</button>
+    <button onclick="play('Tails')">Tails</button>
+</div>
+
+<div class="result" id="result"></div>
+
+<div class="score">
+    You: <span id="playerScore">0</span> |
+    Computer: <span id="computerScore">0</span>
+</div>
+
+<div class="winner" id="winner"></div>
+
+<script>
+    let playerScore = 0;
+    let computerScore = 0;
+    const winningScore = 7;
+
+    function play(playerChoice) {
+        if (playerScore >= winningScore || computerScore >= winningScore) {
+            return;
+        }
+
+        const choices = ['Heads', 'Tails'];
+
+        // Actual coin flip (independent)
+        const coinResult = choices[Math.floor(Math.random() * 2)];
+
+        // Computer guess
+        const computerChoice = choices[Math.floor(Math.random() * 2)];
+
+        let resultText = `Coin landed on ${coinResult}. You chose ${playerChoice}. Computer chose ${computerChoice}. `;
+
+        if (playerChoice === coinResult && computerChoice === coinResult) {
+            resultText += "It's a tie! Both guessed correctly.";
+        } else if (playerChoice === coinResult) {
+            playerScore++;
+            resultText += "You win this round!";
+        } else if (computerChoice === coinResult) {
+            computerScore++;
+            resultText += "Computer wins this round!";
+        } else {
+            resultText += "No one guessed correctly.";
+        }
+
+        document.getElementById('result').textContent = resultText;
+        document.getElementById('playerScore').textContent = playerScore;
+        document.getElementById('computerScore').textContent = computerScore;
+
+        checkWinner();
+    }
+
+    function checkWinner() {
+        if (playerScore === winningScore) {
+            document.getElementById('winner').textContent = "🎉 You win the game!";
+        } else if (computerScore === winningScore) {
+            document.getElementById('winner').textContent = "💻 Computer wins the game!";
+        }
+    }
+</script>
+
+</body>
+</html>
